@@ -1,5 +1,6 @@
 from typing import Literal
 
+from pydantic import computed_field
 from pydantic_settings import BaseSettings as PydanticBaseSettings
 from pydantic_settings import SettingsConfigDict
 
@@ -13,6 +14,14 @@ class Config(BaseSettings):
     ENVIRONMENT: Literal["local", "staging", "production"] = "local"
     PROJECT_NAME: str
     GROQ_API_KEY: str
+    FRONTEND_URL: str
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def all_cors_origins(self) -> list[str]:
+        return [
+            "http://localhost:3000",
+        ] + [self.FRONTEND_URL]
 
 
 settings = Config()
