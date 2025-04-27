@@ -8,10 +8,6 @@ from fastapi import Depends, HTTPException, Request
 ip_access_log: dict[str, dict[str, int]] = defaultdict(dict)
 
 
-def get_today_date():
-    return datetime.utcnow().strftime("%Y-%m-%d")
-
-
 async def rate_limiter(request: Request):
     # Get client IP address
     client_ip = request.client.host
